@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest'
-import { RegisterUseCase } from './register'
+import { RegisterUseCase } from '../register'
 import { compare } from 'bcryptjs'
 import { inMemoryUsersRepository } from '@/repositories/in-memory-users-repository'
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 
 describe('Register Use Case', () => {
   test('if the password is being encrypted', async () => {
