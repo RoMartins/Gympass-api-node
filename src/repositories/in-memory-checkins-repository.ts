@@ -5,6 +5,10 @@ import dayjs from 'dayjs'
 
 export class inMemoryCheckInsRepository implements InterfaceCheckInsReposytory {
   public items: CheckIn[] = []
+  async findCheckInHistoryByUserId(userId: string) {
+    return this.items.filter((checkin) => checkin.user_id === userId)
+  }
+
   async findByUserIdCheckInOnSameDate(userId: string, date: Date) {
     const startOfDay = dayjs(date).startOf('date')
     const endOfDay = dayjs(date).endOf('date')
