@@ -13,13 +13,12 @@ describe('Authenticate Use Service', () => {
     authenticateUseCase = new AuthenticateUseCase(usersRepository)
   })
   test('if to be able to authenticate ', async () => {
-    const createdUser = await usersRepository.create({
+    await usersRepository.create({
       email: 'johndue@example.com',
       name: 'jhon due',
       password_hash: await hash('123456', 6),
     })
 
-    console.log(createdUser)
     await expect(
       authenticateUseCase.execute({
         email: 'johndue@example.com',
