@@ -49,7 +49,6 @@ describe('Get user check-in history useCase', () => {
       page: 2,
     })
 
-    console.log('*', checkIns)
     expect(checkIns).toHaveLength(2)
     expect(checkIns).toEqual([
       expect.objectContaining({ gym_id: 'gym-21' }),
