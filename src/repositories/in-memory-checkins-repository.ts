@@ -5,8 +5,11 @@ import dayjs from 'dayjs'
 
 export class inMemoryCheckInsRepository implements InterfaceCheckInsReposytory {
   public items: CheckIn[] = []
-  async findCheckInHistoryByUserId(userId: string) {
-    return this.items.filter((checkin) => checkin.user_id === userId)
+  async findCheckInHistoryByUserId(userId: string, page: number) {
+    console.log('***', page)
+    return this.items
+      .filter((checkin) => checkin.user_id === userId)
+      .slice((page - 1) * 20, page * 20)
   }
 
   async findByUserIdCheckInOnSameDate(userId: string, date: Date) {

@@ -2,7 +2,7 @@ import { Prisma, CheckIn } from '@prisma/client'
 import { InterfaceCheckInsReposytory } from '../interface-checkins-reposytory'
 
 export class CheckInsRepository implements InterfaceCheckInsReposytory {
-  findCheckInHistoryByUserId(userId: string): Promise<CheckIn[]> {
+  findCheckInHistoryByUserId(userId: string, page: number): Promise<CheckIn[]> {
     throw new Error('Method not implemented.')
   }
 

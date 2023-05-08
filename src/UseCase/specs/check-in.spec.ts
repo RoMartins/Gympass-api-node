@@ -21,8 +21,8 @@ describe('CheckIn Use Case', () => {
       title: 'Academia Js',
       description: '',
       phone: '',
-      latitude: new Decimal(0),
-      longitude: new Decimal(0),
+      latitude: 0,
+      longitude: 0,
     })
 
     vi.useFakeTimers()
