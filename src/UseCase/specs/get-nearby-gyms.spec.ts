@@ -1,8 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { GetNearbyGyms } from '../get-nearby-gyms'
-import { GymsRepository } from '@/repositories/prisma/gyms-repository'
 import { inMemoryGymsRepository } from '@/repositories/in-memory-gyms-repository'
-import exp from 'constants'
 
 describe('Get Nearby Gyms UseCase', () => {
   const gymsRepository = new inMemoryGymsRepository()
@@ -29,7 +27,6 @@ describe('Get Nearby Gyms UseCase', () => {
       userLatitude: -23.5217237,
       userLongitude: -46.4948351,
     })
-
     expect(gyms).toEqual([
       expect.objectContaining({ description: 'Academia a menos de 10km' }),
     ])

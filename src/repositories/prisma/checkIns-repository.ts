@@ -2,6 +2,14 @@ import { Prisma, CheckIn } from '@prisma/client'
 import { InterfaceCheckInsReposytory } from '../interface-checkins-reposytory'
 
 export class CheckInsRepository implements InterfaceCheckInsReposytory {
+  save(checkIn: CheckIn): Promise<CheckIn> {
+    throw new Error('Method not implemented.')
+  }
+
+  findById(checkInId: string): Promise<CheckIn | null> {
+    throw new Error('Method not implemented.')
+  }
+
   countByUserId(userId: String): Promise<number> {
     throw new Error('Method not implemented.')
   }

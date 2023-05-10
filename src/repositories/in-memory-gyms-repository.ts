@@ -10,7 +10,7 @@ export class inMemoryGymsRepository implements InterfaceGymsRepository {
   public items: Gym[] = []
 
   async findGymsNearby(params: FindGymsNearbyParams) {
-    return this.items.filter((item) => {
+    const gymsNearby = this.items.filter((item) => {
       const distance = getDistanceBetweenCoordinates(
         { latitude: params.latitude, longitude: params.longitude },
         {
@@ -21,6 +21,8 @@ export class inMemoryGymsRepository implements InterfaceGymsRepository {
 
       return distance < 10
     })
+
+    return gymsNearby
   }
 
   async searchManyByQuery(query: string, page: number): Promise<Gym[]> {
