@@ -3,21 +3,43 @@ import {
   FindGymsNearbyParams,
   InterfaceGymsRepository,
 } from '../interface-gyms-repository'
+import { prisma } from '@/lib/prisma'
 
 export class GymsRepository implements InterfaceGymsRepository {
-  findGymsNearby(params: FindGymsNearbyParams): Promise<Gym[]> {
-    throw new Error('Method not implemented.')
+  async findGymsNearby(params: FindGymsNearbyParams): Promise<Gym[]> {
+    const gyms = await prisma.$queryRaw<Gym[]>`
+    SELECT * from gyms
+    WHERE ( 6371 * acos( cos( radians(${params.latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${params.longitude}) ) + sin( radians(${params.latitude}) ) * sin( radians( latitude ) ) ) ) <= 10
+  `
+
+    return gyms
   }
 
   searchManyByQuery(query: string, page: number): Promise<Gym[]> {
-    throw new Error('Method not implemented.')
+    const gyms = prisma.gym.findMany({
+      where: {
+        title: {
+          contains: query,
+        },
+      },
+    })
+
+    return gyms
   }
 
-  create(data: Prisma.GymCreateInput): Promise<Gym> {
-    throw new Error('Method not implemented.')
+  async create(data: Prisma.GymCreateInput): Promise<Gym> {
+    const gym = await prisma.gym.create({
+      data,
+    })
+    return gym
   }
 
-  findById(id: string): Promise<Gym | null> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<Gym | null> {
+    const gym = await prisma.gym.findUnique({
+      where: {
+        id,
+      },
+    })
+    return gym
   }
 }
