@@ -27,7 +27,6 @@ export class ValidateCheckIn {
       checkIn.created_at,
       'minutes',
     )
-    console.log(distanceInMinutesFromCheckinCreation)
 
     if (distanceInMinutesFromCheckinCreation > 20) {
       throw new lateCheckInValidationError()
