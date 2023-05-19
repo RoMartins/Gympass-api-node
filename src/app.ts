@@ -5,6 +5,7 @@ import fastifyJwt from '@fastify/jwt'
 import { usersRoutes } from './http/controllers/users/routes'
 import { gymsRoutes } from './http/controllers/gyms/routes'
 import { checkInRoutes } from './http/controllers/checkin-ins/routes'
+import { MaxDistanceError } from './UseCase/errors/max-distance-error'
 
 export const app = fastify()
 
@@ -21,6 +22,10 @@ app.setErrorHandler((error, request, reply) => {
     return reply
       .status(400)
       .send({ message: 'Validation error', issues: error.format() })
+  }
+
+  if (error instanceof MaxDistanceError) {
+    return reply.status(400).send({ message: 'MaxDistanceError' })
   }
 
   if (env.NODE_ENV !== 'production') {
