@@ -2,7 +2,7 @@ import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import request from 'supertest'
 import { app } from '@/app'
 import { createAndAuthenticateUser } from '@/UseCase/utils/test/create-and-authenticate-user'
-describe('Search Gym e2e', () => {
+describe('nearby Gym e2e', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -11,35 +11,36 @@ describe('Search Gym e2e', () => {
     await app.close()
   })
 
-  test.only('should be able search a gym', async () => {
+  test.only('should be able list nearby gyms', async () => {
     const { token } = await createAndAuthenticateUser(app)
 
     await request(app.server)
       .post('/gyms')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        description: 'Melhores treinos',
+        description: 'Academia a menos de 10km',
         title: 'Academia Js',
-        longitude: -49.6401091,
-        latitude: -27.2092052,
+        latitude: -23.5145096,
+        longitude: -46.5045282,
         phone: '11985549666',
       })
 
     await request(app.server)
-      .post('/gyms')
+      .get('/gyms/nearby')
       .set('Authorization', `Bearer ${token}`)
       .send({
         description: 'Melhores treinos',
         title: 'Typescript',
-        longitude: -49.6401091,
-        latitude: -27.2092052,
+        latitude: -24.0854938,
+        longitude: -46.9901834,
         phone: '11985549666',
       })
 
     const response = await request(app.server)
-      .get('/gyms/search')
+      .get('/gyms/nearby')
       .query({
-        query: 'Typescript',
+        latitude: -23.5217237,
+        longitude: -46.4948351,
       })
       .set('Authorization', `Bearer ${token}`)
       .send()
@@ -48,7 +49,7 @@ describe('Search Gym e2e', () => {
     expect(response.body.gyms).toHaveLength(1)
     expect(response.body.gyms).toEqual([
       expect.objectContaining({
-        title: 'Typescript',
+        title: 'Academia Js',
       }),
     ])
   })
