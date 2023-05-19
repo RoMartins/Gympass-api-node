@@ -3,7 +3,7 @@ import request from 'supertest'
 import { app } from '@/app'
 import { createAndAuthenticateUser } from '@/UseCase/utils/test/create-and-authenticate-user'
 import { prisma } from '@/lib/prisma'
-describe('metrics Checkin e2e', () => {
+describe('validate Checkin e2e', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -12,7 +12,7 @@ describe('metrics Checkin e2e', () => {
     await app.close()
   })
 
-  test('should be able get metrics user checkin', async () => {
+  test('should be able validate user checkin', async () => {
     const { token } = await createAndAuthenticateUser(app)
 
     const user = await prisma.user.findFirstOrThrow()
@@ -24,19 +24,23 @@ describe('metrics Checkin e2e', () => {
       },
     })
 
-    await prisma.checkIn.createMany({
-      data: [
-        { gym_id: gym.id, user_id: user.id },
-        { gym_id: gym.id, user_id: user.id },
-      ],
+    let checkIn = await prisma.checkIn.create({
+      data: { gym_id: gym.id, user_id: user.id },
     })
 
-    const metricsResponse = await request(app.server)
-      .get('/check-ins/metrics')
+    const checkinResponse = await request(app.server)
+      .patch(`/check-in/${checkIn.id}/validate`)
       .set('Authorization', `Bearer ${token}`)
-      .send({
-        userId: user.id,
-      })
-    expect(metricsResponse.body.checkInCount).toEqual(2)
+      .send()
+
+    expect(checkinResponse.statusCode).toEqual(204)
+
+    checkIn = await prisma.checkIn.findFirstOrThrow({
+      where: {
+        id: checkIn.id,
+      },
+    })
+
+    expect(checkIn.validated_at).toEqual(expect.any(Date))
   })
 })
