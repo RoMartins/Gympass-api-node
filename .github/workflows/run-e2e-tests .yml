@@ -3,19 +3,19 @@ name: Run E2E Tests
 on: [push]
 
 jobs:
-  run-unit-tests:
+  run-e2e-tests:
     name: Run E2E Tests
     runs-on: ubuntu-latest
 
     services:
       postgres:
         image: bitnami/postgresql
-        - 5432:5432
-      ports:
-      env:
-        POSTGRESQL_USERNAME:docker
-        POSTGRESQL_PASSWORD:docker
-        POSTGRESQL_DATABASE:apiGympass
+        ports:
+          - 5432:5432
+        env:
+          POSTGRESQL_USERNAME: docker
+          POSTGRESQL_PASSWORD: docker
+          POSTGRESQL_DATABASE: apiGympass
 
     steps:
       - uses: actions/checkout@v3
