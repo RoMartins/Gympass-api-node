@@ -11,8 +11,8 @@ describe('Gym e2e', () => {
     await app.close()
   })
 
-  test('should be ablecreate a gym', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+  test('should be able create a gym', async () => {
+    const { token } = await createAndAuthenticateUser(app, true)
     const gymResponse = await request(app.server)
       .post('/gyms')
       .set('Authorization', `Bearer ${token}`)
