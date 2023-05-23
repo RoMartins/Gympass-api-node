@@ -11,7 +11,7 @@ describe('nearby Gym e2e', () => {
     await app.close()
   })
 
-  test.only('should be able list nearby gyms', async () => {
+  test('should be able list nearby gyms', async () => {
     const { token } = await createAndAuthenticateUser(app, true)
 
     await request(app.server)
